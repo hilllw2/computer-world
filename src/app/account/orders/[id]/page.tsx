@@ -1,5 +1,5 @@
 import { getCurrentUserAndProfile } from '@/lib/auth'
-import { getOrder } from '@/lib/db/orders'
+import { getOrder, OrderItem } from '@/lib/db/orders'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 
@@ -91,9 +91,9 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                 <div className="mt-10">
                     <h2 className="text-lg font-medium text-gray-900">Items</h2>
                     <div className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
-                        {order.items?.map((item) => (
+                        {order.items?.map((item: OrderItem) => (
                             <div key={item.id} className="flex py-6 sm:py-10">
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     <img
                                         src={item.product?.images?.[0]?.storage_path
                                             ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${item.product.images[0].storage_path}`

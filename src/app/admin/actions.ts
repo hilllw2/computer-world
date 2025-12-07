@@ -129,13 +129,13 @@ export async function createCategoryAction(formData: FormData) {
 
 export async function deleteCategoryAction(id: string) {
     const { profile } = await getCurrentUserAndProfile()
-    if (profile?.role !== 'admin') return { error: 'Unauthorized' }
+    if (profile?.role !== 'admin') throw new Error('Unauthorized')
 
     const supabase = await createClient()
     const { error } = await supabase.from('categories').delete().eq('id', id)
 
     if (error) {
-        return { error: 'Failed to delete category' }
+        throw new Error('Failed to delete category')
     }
     revalidatePath('/admin/categories')
 }
@@ -165,15 +165,16 @@ export async function createBrandAction(formData: FormData) {
     redirect('/admin/brands')
 }
 
-export async function deleteBrandAction(id: string) {
-    const { profile } = await getCurrentUserAndProfile()
-    if (profile?.role !== 'admin') return { error: 'Unauthorized' }
+export async function deleteBrandAction(formData: FormData) {
+    const id = formData.get('id') as string;
+    const { profile } = await getCurrentUserAndProfile();
+    if (profile?.role !== 'admin') return;
 
-    const supabase = await createClient()
-    const { error } = await supabase.from('brands').delete().eq('id', id)
+    const supabase = await createClient();
+    const { error } = await supabase.from('brands').delete().eq('id', id);
 
     if (error) {
-        return { error: 'Failed to delete brand' }
+        return;
     }
-    revalidatePath('/admin/brands')
+    revalidatePath('/admin/brands');
 }

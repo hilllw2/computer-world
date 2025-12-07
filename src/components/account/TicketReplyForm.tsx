@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { replyToTicketAction } from './actions'
+import { replyToTicketAction } from '@/app/account/tickets/actions'
 import { useState } from 'react'
 import { Loader2, Send } from 'lucide-react'
 

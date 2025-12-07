@@ -32,7 +32,8 @@ export default async function AdminBrandsPage() {
                                 <p className="text-sm text-gray-500">/{brand.slug}</p>
                             </div>
                             <div className="flex items-center space-x-4">
-                                <form action={deleteBrandAction.bind(null, brand.id)}>
+                                <form action={deleteBrandAction}>
+                                    <input type="hidden" name="id" value={brand.id} />
                                     <button type="submit" className="text-red-600 hover:text-red-900">
                                         <Trash2 className="h-5 w-5" />
                                     </button>
