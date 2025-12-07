@@ -1,0 +1,24 @@
+import { getCurrentUserAndProfile } from '@/lib/auth'
+import { redirect } from 'next/navigation'
+import { AdminSidebar } from '@/components/admin/AdminSidebar'
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+    const { user, profile } = await getCurrentUserAndProfile()
+
+    if (!user || !profile) {
+        redirect('/auth/login?redirect=/admin')
+    }
+
+    if (profile.role !== 'admin') {
+        redirect('/')
+    }
+
+    return (
+        <div className="flex h-screen bg-gray-100">
+            <AdminSidebar />
+            <main className="flex-1 overflow-y-auto p-8">
+                {children}
+            </main>
+        </div>
+    )
+}
